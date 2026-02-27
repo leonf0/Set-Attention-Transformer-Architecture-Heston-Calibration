@@ -28,7 +28,6 @@ def evaluate(model, loader, criterion, device):
 
 
 def compute_metrics(pred_transformed: np.ndarray, true_transformed: np.ndarray):
-    """MAE and R² on the original (physical) scale."""
     pred = inverse_transform_labels(pred_transformed)
     true = inverse_transform_labels(true_transformed)
 
@@ -54,7 +53,6 @@ def print_metrics(mae, r2, label=""):
 
 def run_training(model, train_loader, val_loader, device,
                  lr=3e-4, max_epochs=100, patience=10, save_path="best.pt"):
-    """Generic training loop — shared by MLP and Set Attention."""
     criterion = nn.MSELoss()
     optimiser = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
